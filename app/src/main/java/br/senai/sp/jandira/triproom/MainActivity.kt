@@ -16,6 +16,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.toUpperCase
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -131,22 +132,28 @@ fun LoginScreen() {
                 Button(
                     onClick = {},
                     shape = RoundedCornerShape(16.dp),
+                    modifier = Modifier
+                        .height(48.dp)
+                        .width(134.dp),
                     colors = ButtonDefaults.buttonColors(Color(207, 6, 240, 255))
                 ) {
-                    Text(
-                        text = stringResource(id = R.string.button_signIn),
-                        fontSize = 16.sp,
-                        textAlign = TextAlign.Center,
-                        fontWeight = FontWeight.Bold,
-                        color = Color.White
-                    )
 
-                    Icon(
-                        painter = painterResource(id = R.drawable.baseline_arrow_forward_24),
-                        contentDescription = null,
-                        modifier = Modifier.size(24.dp),
-                        tint = Color.White
-                    )
+                    Row() {
+                        Text(
+                            text = stringResource(id = R.string.text_signIn).toUpperCase(),
+                            fontSize = 16.sp,
+                            textAlign = TextAlign.Center,
+                            fontWeight = FontWeight.Bold,
+                            color = Color.White
+                        )
+
+                        Icon(
+                            painter = painterResource(id = R.drawable.baseline_arrow_forward_24),
+                            contentDescription = null,
+                            modifier = Modifier.size(24.dp),
+                            tint = Color.White
+                        )
+                    }
                 }
 
                 Spacer(modifier = Modifier.height(32.dp))
