@@ -1,5 +1,6 @@
 package br.senai.sp.jandira.triproom.model
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
@@ -7,9 +8,9 @@ import androidx.room.PrimaryKey
 
 data class User(
     @PrimaryKey(autoGenerate = true) var id: Long = 0,
-    var userName: String = "",
+    @ColumnInfo(name = "user_name") var userName: String = "",
     var phone: String = "",
     var email: String = "",
     var password: String = "",
-    var isOver18: Boolean = false
+   @ColumnInfo(name = "is_over") var isOver18: Boolean = false
 )
