@@ -7,7 +7,7 @@
     <string name="input_email">E-mail</string>
     <string name="input_password">Password</string>
     <string name="text_signIn">Sign in</string>
-    <string name="create_account">"Dont't have an account? "</string>
+    <string name="create_account">"Don't have an account?"</string>
     <string name="text_signUp">Sign up</string>
     <string name="title_signup">Sign Up</string>
     <string name="new_account">Create a new account</string>
@@ -15,5 +15,5 @@
     <string name="input_phone">Phone</string>
     <string name="text_over">Over 18?</string>
     <string name="button_account">CREATE ACCOUNT</string>
-    <string name="text_already">"Already have an account? "</string>
+    <string name="text_already">Already have an account?</string>
 </resources>

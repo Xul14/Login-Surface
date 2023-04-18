@@ -1,11 +1,15 @@
 package br.senai.sp.jandira.triproom
 
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.*
 import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
@@ -37,6 +41,8 @@ import br.senai.sp.jandira.triproom.componentes.TopShape
 import br.senai.sp.jandira.triproom.model.User
 import br.senai.sp.jandira.triproom.repository.UserRepository
 import br.senai.sp.jandira.triproom.ui.theme.TripRoomTheme
+import coil.compose.rememberAsyncImagePainter
+import coil.request.ImageRequest
 
 class SignUpActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -69,6 +75,22 @@ fun SignUpScreen() {
     var over18State by remember {
         mutableStateOf(value = false)
     }
+
+    //Obter foto da galeria de imagens
+    var photoUri by remember {
+        mutableStateOf<Uri?>(null)
+    }
+
+    //Criar Objeto que abrirá a galeria e retornará a URI da imagem selecionada
+    val launcher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent()
+    ) {
+        photoUri = it
+    }
+
+    var painter = rememberAsyncImagePainter(
+        ImageRequest.Builder(LocalContext.current).data(photoUri).build()
+    )
 
     var context = LocalContext.current
 
@@ -124,7 +146,7 @@ fun SignUpScreen() {
                 ) {
 
                     Image(
-                        painter = painterResource(id = R.drawable.profile),
+                        painter = painter,
                         contentDescription = null,
                         modifier = Modifier
                             .size(28.dp)
@@ -139,7 +161,10 @@ fun SignUpScreen() {
                     contentDescription = null,
                     modifier = Modifier
                         .size(32.dp)
-                        .align(Alignment.BottomEnd),
+                        .align(Alignment.BottomEnd)
+                        .clickable {
+                            launcher.launch("image/*")
+                        },
                 )
             }
 
@@ -285,7 +310,7 @@ fun SignUpScreen() {
                     horizontalAlignment = Alignment.End
                 ) {
 
-                    Row() {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
 
                         Text(
                             text = stringResource(R.string.text_already),
@@ -293,13 +318,19 @@ fun SignUpScreen() {
                             color = Color(160, 156, 156, 255)
                         )
 
-                        Text(
-                            text = stringResource(R.string.text_signIn),
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = Color(207, 6, 240, 255)
-                        )
-
+                        TextButton(
+                            onClick = {
+                                var openSignIn = Intent(context, MainActivity::class.java)
+                                context.startActivity(openSignIn)
+                            }
+                        ) {
+                            Text(
+                                text = stringResource(R.string.text_signIn),
+                                fontSize = 16.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = Color(207, 6, 240, 255)
+                            )
+                        }
                     }
                 }
             }
@@ -342,7 +373,7 @@ fun userSave(
         )
         var id = userRepository.save(newUser)
         Toast.makeText(context, "User created #$id", Toast.LENGTH_LONG).show()
-    }else{
+    } else {
         Toast.makeText(context, "User already exists!!!", Toast.LENGTH_LONG).show()
     }
 
