@@ -5,24 +5,25 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import br.senai.sp.jandira.triproom.model.Category
+import br.senai.sp.jandira.triproom.repository.CategoryRepository
 import br.senai.sp.jandira.triproom.ui.theme.TripRoomTheme
 
 class HomeActivity : ComponentActivity() {
@@ -30,33 +31,29 @@ class HomeActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             TripRoomTheme {
-                HomeScreen()
+                HomeScreen(CategoryRepository.getCategories())
             }
         }
     }
 }
 
-
-@Preview(showBackground = true, showSystemUi = true)
 @Composable
-fun HomeScreen() {
+fun HomeScreen(categories: List<Category>) {
 
     Surface(modifier = Modifier.fillMaxSize()) {
 
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(Color(160, 156, 156, 1))
-        ) {
+        Column() {
 
-            Box(
+            Card(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(220.dp)
+                    .height(200.dp),
+                shape = RectangleShape
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.paris),
-                    contentDescription = ""
+                    contentDescription = "Logo",
+                    contentScale = ContentScale.Crop
                 )
 
                 Column(
@@ -118,25 +115,19 @@ fun HomeScreen() {
                 }
             }
 
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(start = 16.dp)
+            Text(
+                text = stringResource(id = R.string.categoties),
+                modifier = Modifier.padding(top = 14.dp, start = 16.dp)
             )
-            {
 
-                Text(
-                    text = "Categories",
-                    fontSize = 16.sp
-                )
+            LazyRow() {
 
-                Spacer(modifier = Modifier.height(12.dp))
-
-                Row(modifier = Modifier.fillMaxWidth()) {
+                items(categories) { category ->
                     Card(
                         modifier = Modifier
-                            .width(109.dp)
-                            .height(64.dp),
+                            .width(110.dp)
+                            .height(64.dp)
+                            .padding(4.dp),
                         backgroundColor = Color(207, 6, 240, 255)
                     ) {
                         Column(
@@ -145,39 +136,31 @@ fun HomeScreen() {
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
 
-                            Image(
-                                painter = painterResource(id = R.drawable.mountains),
+                            Icon(
+                                painter =  category.icon ?: painterResource(id = R.drawable.no_image),
                                 contentDescription = "",
-                                modifier = Modifier.size(32.dp)
+                                modifier = Modifier.size(32.dp),
+                                tint = Color.White
                             )
 
                             Text(
-                                text = "Mountain",
+                                text = category.name,
                                 fontSize = 14.sp,
                                 color = Color.White
                             )
                         }
-
-
                     }
                 }
 
-                OutlinedTextField(
-                    value = "Search your destinity",
-                    onValueChange = {},
-                    modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(16.dp),
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
-                    leadingIcon = {
-                        Icon(
-                            painter = painterResource(id = R.drawable.baseline_email_24),
-                            contentDescription = null,
-                            modifier = Modifier.size(32.dp),
-                            tint = Color(160, 156, 156, 255)
-                        )
-                    }
-                )
             }
         }
+    }
+}
+
+@Preview(showBackground = true, showSystemUi = true)
+@Composable
+fun DefaultPreview() {
+    TripRoomTheme() {
+        HomeScreen(CategoryRepository.getCategories())
     }
 }
