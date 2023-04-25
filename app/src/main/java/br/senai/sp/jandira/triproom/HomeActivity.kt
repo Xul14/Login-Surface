@@ -40,122 +40,131 @@ class HomeActivity : ComponentActivity() {
 @Composable
 fun HomeScreen(categories: List<Category>) {
 
-    Surface(modifier = Modifier.fillMaxSize()) {
+    Scaffold() {
 
-        Column() {
+        Surface(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(it)
+        ) {
 
-            Card(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(200.dp),
-                shape = RectangleShape
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.paris),
-                    contentDescription = "Logo",
-                    contentScale = ContentScale.Crop
-                )
+            Column() {
 
-                Column(
-                    modifier = Modifier.height(197.dp),
-                    verticalArrangement = Arrangement.Bottom
-                ) {
-
-                    Row(
-                        modifier = Modifier.padding(horizontal = 18.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.baseline_location_on_24),
-                            contentDescription = null,
-                            modifier = Modifier.size(16.dp),
-                            tint = Color.White
-                        )
-                        Text(
-                            text = "You're in Paris",
-                            fontSize = 18.sp,
-                            color = Color.White
-                        )
-                    }
-                    Text(
-                        text = "My Trips",
-                        fontSize = 24.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = Color.White,
-                        modifier = Modifier.padding(horizontal = 36.dp)
-                    )
-
-                }
-
-                Column(
+                Card(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(14.dp),
-                    horizontalAlignment = Alignment.End
+                        .height(200.dp),
+                    shape = RectangleShape
                 ) {
-
-                    Surface(
-                        modifier = Modifier.padding(bottom = 3.dp),
-                        shape = CircleShape,
-                        border = BorderStroke(2.dp, color = Color.White)
-                    ) {
-                        Image(
-                            painter = painterResource(id = R.drawable.susanna_profile),
-                            contentDescription = "",
-                            modifier = Modifier.size(61.dp)
-                        )
-                    }
-
-                    Text(
-                        text = "Susanna Hoffs",
-                        fontSize = 12.sp,
-                        color = Color.White,
-                        fontWeight = FontWeight.Light
+                    Image(
+                        painter = painterResource(id = R.drawable.paris),
+                        contentDescription = "Logo",
+                        contentScale = ContentScale.Crop
                     )
-                }
-            }
 
-            Text(
-                text = stringResource(id = R.string.categoties),
-                modifier = Modifier.padding(top = 14.dp, start = 16.dp)
-            )
-
-            LazyRow() {
-
-                items(categories) { category ->
-                    Card(
-                        modifier = Modifier
-                            .width(110.dp)
-                            .height(64.dp)
-                            .padding(4.dp),
-                        backgroundColor = Color(207, 6, 240, 255)
+                    Column(
+                        modifier = Modifier.height(197.dp),
+                        verticalArrangement = Arrangement.Bottom
                     ) {
-                        Column(
-                            modifier = Modifier.fillMaxSize(),
-                            verticalArrangement = Arrangement.Center,
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ) {
 
+                        Row(
+                            modifier = Modifier.padding(horizontal = 18.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
                             Icon(
-                                painter =  category.icon ?: painterResource(id = R.drawable.no_image),
-                                contentDescription = "",
-                                modifier = Modifier.size(32.dp),
+                                painter = painterResource(id = R.drawable.baseline_location_on_24),
+                                contentDescription = null,
+                                modifier = Modifier.size(16.dp),
                                 tint = Color.White
                             )
-
                             Text(
-                                text = category.name,
-                                fontSize = 14.sp,
+                                text = "You're in Paris",
+                                fontSize = 18.sp,
                                 color = Color.White
                             )
                         }
+                        Text(
+                            text = "My Trips",
+                            fontSize = 24.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = Color.White,
+                            modifier = Modifier.padding(horizontal = 36.dp)
+                        )
+
+                    }
+
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(14.dp),
+                        horizontalAlignment = Alignment.End
+                    ) {
+
+                        Surface(
+                            modifier = Modifier.padding(bottom = 3.dp),
+                            shape = CircleShape,
+                            border = BorderStroke(2.dp, color = Color.White)
+                        ) {
+                            Image(
+                                painter = painterResource(id = R.drawable.susanna_profile),
+                                contentDescription = "",
+                                modifier = Modifier.size(61.dp)
+                            )
+                        }
+
+                        Text(
+                            text = "Susanna Hoffs",
+                            fontSize = 12.sp,
+                            color = Color.White,
+                            fontWeight = FontWeight.Light
+                        )
                     }
                 }
 
+                Text(
+                    text = stringResource(id = R.string.categoties),
+                    modifier = Modifier.padding(top = 14.dp, start = 16.dp)
+                )
+
+                LazyRow() {
+
+                    items(categories) { category ->
+                        Card(
+                            modifier = Modifier
+                                .width(110.dp)
+                                .height(64.dp)
+                                .padding(top = 10.dp, start = 4.dp),
+                            backgroundColor = Color(207, 6, 240, 255)
+                        ) {
+                            Column(
+                                modifier = Modifier.fillMaxSize(),
+                                verticalArrangement = Arrangement.Center,
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ) {
+
+                                Icon(
+                                    painter = category.icon
+                                        ?: painterResource(id = R.drawable.no_image),
+                                    contentDescription = "",
+                                    modifier = Modifier.size(32.dp),
+                                    tint = Color.White
+                                )
+
+                                Text(
+                                    text = category.name,
+                                    fontSize = 14.sp,
+                                    color = Color.White
+                                )
+                            }
+                        }
+                    }
+
+                }
             }
         }
     }
 }
+
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
